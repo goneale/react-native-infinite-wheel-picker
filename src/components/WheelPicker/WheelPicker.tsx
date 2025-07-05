@@ -1,4 +1,9 @@
-import React, { forwardRef, useCallback, useImperativeHandle } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useEffect,
+} from 'react';
 import { Animated, View } from 'react-native';
 import Constants from '../../constants';
 import { useWheelPicker } from '../../hooks';
@@ -77,6 +82,13 @@ const WheelPicker = forwardRef<WheelPickerRef, WheelPickerProps>(
         onChangeValue(index ?? 0, originalValue?.toString() ?? '');
       },
     }));
+
+    useEffect(() => {
+      flatListRef.current?.scrollToIndex({
+        index: initialScrollIndex,
+        animated: false,
+      });
+    }, [initialScrollIndex]);
 
     const renderItem = useCallback(
       ({ item, index }: { item: string | null; index: number }) => (
